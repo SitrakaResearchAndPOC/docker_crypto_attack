@@ -1,0 +1,72 @@
+https://research.nccgroup.com/2021/02/17/cryptopals-exploiting-cbc-padding-oracles/
+
+docker pull ubuntu:20.04
+
+
+docker run -itd --privileged   --name OraclePadAttack ubuntu:20.04 
+
+docker exec -it OraclePadAttack bash
+
+apt update 
+
+apt install python3-pip nano
+
+pip install PyCryptoDome
+
+nano full_attack.py
+
+nano oracle_pad.py
+
+python3 oracle_pad.py
+
+exit
+
+
+docker exec -it OraclePadAttack python3 oracle_pad.py
+
+
+docker commit OraclePadAttack oraclepadattack:v1
+
+
+docker image save oraclepadattack:v1 -o oraclepadattack.tar.gz
+
+
+LOAD AND RUN ! 
+docker load  -i oraclepadattack.tar.gz
+
+docker run -itd --privileged   --name OraclePadAttack oraclepadattack:v1 
+
+docker exec -it OraclePadAttack python3 oracle_pad.py
+----------------------------------------------------------
+ModSec docker
+
+
+
+
+----------------------------------------------------------
+
+TSI METI : 
+docker pull kalilinux/kali-rolling
+
+
+docker run -itd --privileged  -v /tmp/.X11-unix:/tmp/.X11-unix:ro -v $XAUTHORITY:/home/user/.Xauthority:ro --net=host --env="DISPLAY=$DISPLAY"   --name burpsuite kalilinux/kali-rolling:latest
+
+xhost +
+
+docker exec -it burpsuite bash
+
+
+apt update
+
+
+apt install gnome-browser-connector
+
+
+apt install curl git wget openjdk-17-jdk openjdk-17-jre openjdk-23-jdk openjdk-23-jre -y
+
+update-alternatives --config java
+
+curl https://raw.githubusercontent.com/xiv3r/Burpsuite-Professional/main/install.sh | bash
+
+
+
