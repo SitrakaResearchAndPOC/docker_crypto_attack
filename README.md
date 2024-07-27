@@ -1,4 +1,5 @@
 # docker_crypto_attack
+## GETTING OS
 ```  
 docker pull ubuntu:20.04
 ```
@@ -7,7 +8,8 @@ docker run -itd --privileged   --name cryptographyattack ubuntu:20.04
 ```  
 ```  
 docker exec -it cryptographyattack bash
-```  
+```
+## INSTALLING LENGTH EXTENSION ATTACK ON PYTHON
 ```  
 apt update 
 ```  
@@ -29,6 +31,8 @@ python3 length_extension_sha256/length_extension_sha256.py
 ```  
 cd ..
 ```  
+## INSTALLING LENGTH EXTENSION ATTACK ON C
+
 ```  
 apt install openssl openssl-dev
 ```  
@@ -38,9 +42,7 @@ git clone https://github.com/iagox86/hash_extender
 ```  
 cd hash_extender/
 ```  
-```  
 Open Makefile 
-```  
 ```  
 nano Makefile 
 ```  
@@ -95,6 +97,7 @@ gcc -o hash_extension_1 hash_extension_1.c -lssl -lcrypto
 ```  
 cd /
 ```  
+## INSTALLING BIT FLIPPING PYTHON CODE
 ```  
 pip3 install crypto
 ```  
@@ -116,6 +119,7 @@ chmod +x main.py
 ```  
 cd ..
 ```
+## INSTALLING ORACLE PADDING By NCC RESEARCH
 ```    
 mkdir oraclepad
 ```  
@@ -243,7 +247,8 @@ if __name__ == "__main__":
 if not yet replaced form oraclepad import full_attack ---> from full_attack import full_attack
 ```  
 cd ..
-```  
+```
+## INSTALLING BIT FLIPPING SIMPLE PYTHON CODE
 ```  
 apt install -y xxd
 ```  
@@ -282,7 +287,7 @@ docker load -i cryptographyattack.tar.gz
 docker run -itd --privileged   --name cryptographyattack  cryptographyattack:latest
 ```  
 
-# TEST 1 
+# TEST 1 : length extension attack on python
 ```  
 docker exec -it cryptographyattack bash
 ```  
@@ -296,7 +301,7 @@ python3 length_extension_sha256/length_extension_sha256.py
 exit
 ``` 
 
-# TEST 2 
+# TEST 2 : length extension attack on C
 ```  
 docker exec -it cryptographyattack bash
 ```  
@@ -312,7 +317,7 @@ cd hash-length-extension/hash_extender/
 ```  
 exit
 ```  
-# TEST3 
+# TEST3 : bit flipping on python
 ```  
 docker exec -it cryptographyattack bash
 ```  
@@ -327,7 +332,7 @@ exit
 ```  
 
 
-# TEST4 
+# TEST4 : oracle padding by ncc researchgroup
 ```  
 docker exec -it cryptographyattack bash
 ```
@@ -337,7 +342,7 @@ python3 oraclepad/oraclepad.py
 ```  
 exit
 ```  
-# TEST5 
+# TEST5 : simple bit flipping on python
 ```  
 docker exec -it cryptographyattack bash
 ```  
