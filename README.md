@@ -129,6 +129,7 @@ cd oraclepad
 ```  
 nano full_attack.py 
 ```
+```
 #!/usr/bin/env python3
 BLOCK_SIZE = 16
 
@@ -163,6 +164,7 @@ def single_block_attack(block, oracle):
     return zeroing_iv
     
 def full_attack(iv, ct, oracle):
+   """Given the iv, ciphertext, and a padding oracle, finds and returns the plaintext"""
     assert len(iv) == BLOCK_SIZE and len(ct) % BLOCK_SIZE == 0
 
     msg = iv + ct
