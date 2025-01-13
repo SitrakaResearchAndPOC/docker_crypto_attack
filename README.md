@@ -163,8 +163,7 @@ def single_block_attack(block, oracle):
         zeroing_iv[-pad_val] = candidate ^ pad_val
 
     return zeroing_iv
-
-
+    
 def full_attack(iv, ct, oracle):
     assert len(iv) == BLOCK_SIZE and len(ct) % BLOCK_SIZE == 0
 
