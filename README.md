@@ -34,7 +34,7 @@ cd ..
 ## INSTALLING LENGTH EXTENSION ATTACK ON C
 
 ```  
-apt install openssl openssl-dev
+apt install openssl #openssl-dev
 ```  
 ```  
 git clone https://github.com/iagox86/hash_extender
