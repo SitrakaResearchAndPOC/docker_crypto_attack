@@ -128,11 +128,9 @@ cd oraclepad
 ```  
 ```  
 nano full_attack.py 
-```  
+```
 #!/usr/bin/env python3
-
 BLOCK_SIZE = 16
-
 
 def single_block_attack(block, oracle):
     """Returns the decryption of the given ciphertext block"""
