@@ -262,8 +262,108 @@ cd bitflip_simple
 nano bitflipping.py
 ```
 ```  
+#!/usr/bin/sudo /usr/bin/python
+# requirements: PyCryptodome
+
+import base64
+import subprocess
+from Crypto.Util.strxor import strxor
+from Crypto.Util.Padding import pad
+
+### variables to set
+PLAINTEXT = b"id=12345678;name=myname;is_admin=false;mail=mymail@mail.com"
+CIPHERTEXT = base64.b64decode("RlDfIOgTrnUsIZJE802+wNr0jll/3ZiM4BGHH7xMO8TF0QBk>
+BLOCK_SIZE = 16 # AES
+PADDING_TYPE = "pkcs7"
+OLD_STR = b"false" # string to flip
+NEW_STR = b"true;" # string that will replace OLD_STR
+
+
+xxd_cmd = ["xxd", "-g1", "-c", str(BLOCK_SIZE)]
+
+print("\n[+] Infos:")
+print("OLD_STR = %s" % OLD_STR)
+print("NEW_STR = %s" % NEW_STR)
+
+print("\n[+] Plaintext (%d bytes):" % len(PLAINTEXT))
+subprocess.run(xxd_cmd, input=PLAINTEXT)
+
+if len(PLAINTEXT) != len(CIPHERTEXT):
+    PLAINTEXT = pad(PLAINTEXT, block_size=BLOCK_SIZE, style=PADDING_TYPE)
+
+print("\n[+] Plaintext [Padded with %s] (%d bytes):" % (PADDING_TYPE, len(PLAIN>
+subprocess.run(xxd_cmd, input=PLAINTEXT)
+
+print("\n[+] Ciphertext (%d bytes):" % len(CIPHERTEXT))
+subprocess.run(xxd_cmd, input=CIPHERTEXT)
+
+assert len(PLAINTEXT) == len(CIPHERTEXT)
+assert len(CIPHERTEXT) % BLOCK_SIZE == 0
+assert OLD_STR in PLAINTEXT
+assert len(OLD_STR) == len(NEW_STR)
+
+blocks = [PLAINTEXT[i:i + BLOCK_SIZE] for i in
+        range(0, len(PLAINTEXT), BLOCK_SIZE)]
+block_offset = 0
+in_block = -1
+for block_id, block in enumerate(blocks):
+    if OLD_STR in block:
+        in_block = block_id
+        block_offset = block.find(OLD_STR)
+        break
+```  
+```  
 nano bitflipping2.py
 ```  
+```  
+# The code is modified from
+# https://gist.github.com/lopes/168c9d74b988391e702aac5f4aa69e41
+#
+from base64 import b64decode
+from base64 import b64encode
+
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+
+class AESCipher:
+    def __init__(self, key):
+        self.key = key
+
+    def encrypt(self, data):
+        iv = get_random_bytes(AES.block_size)
+        self.cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        return b64encode(iv + self.cipher.encrypt(pad(data.encode('utf-8'), 
+            AES.block_size)))
+
+    def decrypt(self, data):
+        raw = b64decode(data)
+        self.cipher = AES.new(self.key, AES.MODE_CBC, raw[:AES.block_size])
+        return unpad(self.cipher.decrypt(raw[AES.block_size:]), AES.block_size)
+    
+def bitFlip( pos, bit, data):
+    raw = b64decode(data)
+    list1 = list(raw)
+    list1[pos] = list1[pos] ^ bit
+    raw = bytes(list1)
+    return b64encode(bytes(raw))
+
+if __name__ == '__main__':
+
+    key = b'Sixteen byte key'
+    msg = "Buy 1000 lots of waffles"
+    
+    print('Original Message:', msg)
+
+    ctx = AESCipher(key).encrypt(msg).decode('utf-8')
+    print('Ciphertext      :', ctx)
+
+    ctx = bitFlip(4,4,ctx)
+
+    print('Message...      :', AESCipher(key).decrypt(ctx).decode('utf-8'))
+```  
+
 ```  
 cd ..
 ```
@@ -349,7 +449,7 @@ docker exec -it cryptographyattack bash
 ```  
 ```  
 python3 bitflip_simple/bitflipping.py 
-```  
+```
 ```  
 python3 bitflip_simple/bitflipping2.py
 ```  
