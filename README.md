@@ -266,7 +266,8 @@ nano bitflipping2.py
 ```  
 ```  
 cd ..
-```  
+```
+Tape ctrl+shift+T
 ``` 
 docker commit  cryptographyattack cryptographyattack:latest
 ```
