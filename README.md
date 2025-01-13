@@ -166,7 +166,6 @@ def single_block_attack(block, oracle):
 
 
 def full_attack(iv, ct, oracle):
-    """Given the iv, ciphertext, and a padding oracle, finds and returns the plaintext"""
     assert len(iv) == BLOCK_SIZE and len(ct) % BLOCK_SIZE == 0
 
     msg = iv + ct
